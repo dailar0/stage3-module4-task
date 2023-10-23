@@ -1,0 +1,18 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'org.springframework.boot' apply false
+}
+dependencies {
+    implementation project(':module-service')
+    testImplementation project(':module-service')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.26'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom SpringBootPlugin.BOM_COORDINATES
+    }
+}

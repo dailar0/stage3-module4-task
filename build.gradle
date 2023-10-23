@@ -1,0 +1,48 @@
+
+plugins {
+    id 'java-base'
+    id 'org.springframework.boot' version '2.7.14'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+wrapper {
+    gradleVersion = gradlewVersion
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'io.spring.dependency-management'
+    group = 'com.mjc.school'
+
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    }
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+
+task repack(type: Jar, dependsOn: ':module-main:build') {
+    if (findProject(':module-main') != null) {
+        entryCompression = ZipEntryCompression.STORED
+        def buildJar = zipTree("${project(':module-main').buildDir}/libs/module-main.jar")
+        from(buildJar) { into('/') }
+        manifest {
+            attributes(
+                    'Main-Class': 'com.mjc.school.Main'
+            )
+        }
+    }
+}

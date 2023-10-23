@@ -1,0 +1,22 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'application'
+    id 'org.springframework.boot'
+}
+
+mainClassName = 'com.mjc.school.Stage3Module2TaskApplication'
+
+dependencies {
+    implementation project(':module-web')
+    testImplementation project(':module-web')
+}
+
+run {
+    standardInput = System.in
+}
+dependencyManagement {
+    imports {
+        mavenBom SpringBootPlugin.BOM_COORDINATES
+    }
+}
